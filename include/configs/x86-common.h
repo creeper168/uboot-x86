@@ -143,9 +143,17 @@
 #define CONFIG_CMD_ELF
 
 #define CONFIG_BOOTARGS		\
-	"root=/dev/sdb3 init=/sbin/init rootwait ro"
+	"rootfstype=ramfs console=ttyS0 debug rdinit=/sbin/init kgdboc=ttyS0 debug"
+
+/* "root=/dev/sdb3 init=/sbin/init rootwait ro" */
+
 #define CONFIG_BOOTCOMMAND	\
-	"ext2load scsi 0:3 01000000 /boot/vmlinuz; zboot 01000000"
+	"tftpboot 0x1000000 bzImage; tftpboot 0x3000000 initrd.img; zboot 0x1000000 0 0x3000000 0x4000000"
+
+/* only for temp */
+
+
+/*	"ext2load scsi 0:3 01000000 /boot/vmlinuz; zboot 01000000" */
 
 #if defined(CONFIG_CMD_KGDB)
 #define CONFIG_KGDB_BAUDRATE			115200
@@ -248,6 +256,8 @@
 
 #define CONFIG_EXTRA_ENV_SETTINGS			\
 	CONFIG_STD_DEVICES_SETTINGS			\
+	"serverip=172.20.0.1\0"				\
+	"ipaddr=172.20.0.2\0"				\
 	"netdev=eth0\0"					\
 	"consoledev=ttyS0\0"				\
 	"othbootargs=acpi=off\0"			\
